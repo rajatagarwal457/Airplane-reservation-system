@@ -4,7 +4,7 @@
 	Author: @Ayush Agrawal, @Rajat Agarwal
 */
 
-
+void main();
 struct Date{
 
 	int day,
@@ -61,7 +61,7 @@ struct User{
 /*
 	Functions for AIRS Flights
 	Date: 19/12/2017
-	Author: @Ayush
+	Author: @Ayush Agrawal, @Rajat Agarwal
 */
 
 #include <iostream.h>
@@ -141,33 +141,23 @@ void disp_search(int day, int hour, int year, int f_class, int pmin, int pmax){
 
 /*
 void search_flight(){
-
 	clrscr();
-
 	//Enter flight details
 	int f_class, pmin = 0, pmax = 100000;
 	Date date;
 	char filt, src[4], dst[4];
-
 	cout << "\nEnter date of flight (DD MM YYYY):" << endl;
 	cin >> date.day >> date.month >> date.year;
-
 	cout << "\nEnter flight source: " << endl;
 	cin >> src;
-
 	cout << "\nEnter flight destination: " << endl;
 	cin >> dst;
-
 	cout << "\nEnter class (Business: 1, Economy: 2): " << endl;
 	cin >> f_class;
-
 	cout << "\n\nEnter any key to continue: ";
 	getch();
-
 	clrscr();
-
 	cout << setw(5) << "F No" << setw(10) << "Airline" << setw(10) << "Source";
-
 	for (int i = 0; i <= n; i++){
 		if (strcmp(src,flight[i].src) && strcmp(dst, flight[i].dst) && date == flight[i].etd && flight[i].price >= pmin && flight[i].price <=pmax);
 			disp_search(i);
@@ -250,11 +240,12 @@ void search()
 }
 
 
-void main()
+void userf()
 {
 	 int x=1;
 	 do{
-		 cout<<"1: Search for flights\n2: view current booking\n3: exit";
+		 cout<<"1: Search for flights\n2: View current booking\n3: Exit";
+     cout<<"\noption: ";
 		 int ch;
 		 cin>>ch;
 		 switch(ch){
@@ -267,11 +258,27 @@ void main()
 		 }
 	 }while(x);
 }
-
-int main ()
+void admin()
 {
-	 string userName;
-	 string userPassword;
+		cout<<"1. Add flight\n2. Delete flight\n3. Exit";
+		cout<<"\nOption :";
+		int ch;
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:add_flight();
+							break;
+			case 2:del_flight();
+							break;
+			case 3:break;
+
+		}
+}
+
+void main ()
+{
+	 char userName[20];
+	 char userPassword[20];
 	 int loginAttempt = 0;
 
 	 while (loginAttempt < 5)
@@ -288,18 +295,18 @@ int main ()
 		  }
 		  else if (userName == "ayush" && userPassword == "ayush")
 		  {
-				cout << "Welcome Ayush!\n";
-				break;
+				userf();
+				loginAttempt = 0;
 		  }
 		  else if (userName == "rajat" && userPassword == "rajat")
 		  {
-				cout << "Welcome Rajat!\n";
-				break;
+				userf();
+				loginAttempt = 0;
 		  }
 		  else if (userName == "Lufthansa" && userPassword == "la0987")
 		  {
-				cout << "Welcome Lufthansa admin!\n";
-				break;
+				admin();
+				loginAttempt = 0;
 		  }
 		 else
 		  {
@@ -310,7 +317,7 @@ int main ()
 	 if (loginAttempt == 5)
 	 {
 				cout << "Too many login attempts! The program will now terminate.";
-				return 0;
+
 	 }
 
 	 cout << "Have a good day!!\n";
