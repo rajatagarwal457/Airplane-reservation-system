@@ -1,7 +1,7 @@
 /*
 	Structure file for Airline Reservation System
 	Date: 08/12/2017
-	Author: @Ayush Agrawal
+	Author: @Ayush Agrawal, @Rajat Agarwal
 */
 
 
