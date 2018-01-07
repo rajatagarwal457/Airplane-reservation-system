@@ -90,10 +90,10 @@ void add_flight(){
 	cout<<"\n\nEnter Estimated time of Departure (24 hour):" << endl;
 	cin >> flight[n].etdh;
 
-	cout<<"\n\n\nEnter Date of Departure: (DD MM YYYY): " << endl;
+	cout<<"\n\n\nEnter Date of Arrival: (DD MM YYYY): " << endl;
 	cin >> flight[n].eta.day >> flight[n].eta.month >> flight[n].eta.year;
 
-	cout<<"\n\nEnter Estimated time of Departure (24 hour):" << endl;
+	cout<<"\n\nEnter Estimated time of Arrival (24 hour):" << endl;
 	cin >> flight[n].etah;
 
 	//generates flight number (eg AI250 etc)
