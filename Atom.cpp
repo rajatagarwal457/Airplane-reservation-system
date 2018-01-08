@@ -275,7 +275,6 @@
 
 		void userf()
 		{
-			cout<<"x";
 			 int x=1;
 			 do{
 				 cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
