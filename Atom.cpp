@@ -1,5 +1,5 @@
 /*
-	Structure file for Airline Reservation System
+	Airline Reservation System
 	Date: 08/12/2017
 	Author: @Ayush Agrawal, @Rajat Agarwal
 */
@@ -75,6 +75,22 @@ using namespace std;
 Flight flight[100];
 int n = 0; 											//number of flights
 
+
+void display_flights()
+{
+	for(int i=0; i<n; i++)
+	{
+
+				cout<<"\n\n"<<"No."<<i + 1;
+				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+				cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
+				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+				cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
+				cout<<"\n\n"<<"cost per seat "<< flight[i].price;
+				
+
+		}
+}
 void add_flight(){
 
 
@@ -113,17 +129,20 @@ void add_flight(){
 	cout<<"\n\nEnter Destination Airport: " << endl;
 	cin>>flight[n].dst;
 
+	cout<<"enter cost per seat :";
+	cin>>flight[n].price;
+
 	n++;
 
 	//continue
 	cout<<"\n\n\nEnter any key to continue";
 	getch();
-	admin();
+
 }
 
 void del_flight(){
 
-	//display_flights();
+	display_flights();
 
 	cout<<"\nEnter sl no of flight to be deleted";
 	int pos;
@@ -133,18 +152,19 @@ void del_flight(){
 
 	for (int i = pos - 1; i <= n; i++)
 		flight[i] = flight[i+1];
+	n--;
 }
 
 
 //----------------------------------------------------------------------------//
 
 
-void disp_search(int day, int hour, int year, int f_class, int pmin, int pmax){
+/*void disp_search(int day, int hour, int year, int f_class, int pmin, int pmax){
 
 
 }
 
-/*
+
 void search_flight(){
 
 	//Enter flight details
@@ -192,16 +212,17 @@ void status()
 			}
 
 }
-void pay(int cost)
+void pay(int pos)
 {
 		cout<<"\nenter card no. :";
-		long int card_no;
+		double card_no;
 		cin>>card_no;
 		cout<<"\n\nenter CVV";
 		int CVV;
-		cin>>CVV;
+		cin >> CVV;
 		cout<<"\nproccessing payment...";
-		flight[cost].booked=1;
+		for (double i = 0; i < 100000000; i++) {}
+		flight[pos].booked=1;
 }
 void confirmation(char f_no[6], int pos)
 {
@@ -287,6 +308,17 @@ void admin()
 
 int main()
 {
+	 char userData[20][5];
+	 char passData[20][5];
+	 char airlineData[20][5];
+	 char airlinePassData[20][5];
+	 strcpy(userData[0], "rajat");
+	 strcpy(passData[0], "rajat");
+	 strcpy(userData[1], "ayush");
+	 strcpy(passData[1], "ayush");
+	 strcpy(airlineData[0], "airline");
+	 strcpy(airlinePassData[0], "abcd");
+
 	 char userName[20];
 	 char userPassword[20];
 	 int loginAttempt = 0;
@@ -298,31 +330,22 @@ int main()
 		  cout<<"\nPlease enter your user password: ";
 		  cin >> userPassword;
 
-		  if (userName == "pavan" && userPassword == "pavbyk")
-		  {
-				cout<<"\nWelcome Pavan!\n";
-				break;
-		  }
-		  else if (strcmp(userName, "rajat")==0 && strcmp(userPassword, "rajat")==0)
-		  {
-				userf();
-				loginAttempt = 0;
-		  }
-		  else if (strcmp(userName, "ayush")==0 && strcmp(userPassword, "ayush")==0)
-		  {
-				userf();
-				loginAttempt = 0;
-		  }
-		  else if (strcmp(userName, "Lufthansa")==0 && strcmp(userPassword, "la0987")==0)
-		  {
-				admin();
-				loginAttempt = 0;
-		  }
-		 else
-		  {
-				cout<<"\nInvalid login attempt. Please try again.\n" << '\n';
-				loginAttempt++;
-		  }
+		  for(int i=0; i<5; i++)
+			{
+				if(strcmp(userName, userData[i])==0 && strcmp(userPassword, passData[i])==0)
+						userf();
+						loginAttempt=0;
+						i=0;
+						break;
+			}
+			for(int i=0; i<5; i++)
+			{
+				if(strcmp(userName, airlineData[i])==0 && strcmp(userPassword, airlinePassData[i])==0)
+						admin();
+						loginAttempt=0;
+						i=0;
+						break;
+			}
 	 }
 	 if (loginAttempt == 5)
 	 {
