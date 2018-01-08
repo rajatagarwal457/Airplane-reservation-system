@@ -1,4 +1,4 @@
-		/*
+/*
 			Airline Reservation System
 			Date: 08/12/2017
 			Author: @Ayush Agrawal, @Rajat Agarwal
@@ -13,22 +13,6 @@
 				 year;
 
 		};
-
-		/*struct Aircraft{
-
-			char name[20];
-			int rows,
-				 cols,
-				 aislepos;
-
-		};*/
-
-		/*struct Airline{
-
-			char name[20],
-				  pwd[20];
-
-		};*/
 
 		struct Flight{
 
@@ -47,16 +31,6 @@
 			//Aircraft aircraft;
 		};
 
-		/*struct User{
-
-			char name[20],
-				  pwd[20];
-			int  type; 			//0 - airline, 1 - user
-
-		};*/
-
-
-		//----------------------------------------------------------------------------//
 
 
 		/*
@@ -65,12 +39,11 @@
 			Author: @Ayush Agrawal, @Rajat Agarwal
 		*/
 
-		#include <iostream>
+		#include <iostream.h>
 		#include <stdio.h>
 		#include <stdlib.h>
-		#include <iomanip>
+		#include <iomanip.h>
 		#include <conio.h>
-		using namespace std;
 
 		Flight flight[100];
 		int n = 0; 											//number of flights
@@ -155,43 +128,6 @@
 			n--;
 		}
 
-
-		//----------------------------------------------------------------------------//
-
-
-		/*void disp_search(int day, int hour, int year, int f_class, int pmin, int pmax){
-
-
-		}
-
-
-		void search_flight(){
-
-			//Enter flight details
-			int f_class, pmin = 0, pmax = 100000;
-			Date date;
-			char filt, src[4], dst[4];
-			cout<<"\n\nEnter date of flight (DD MM YYYY):" << endl;
-			cin >> date.day >> date.month >> date.year;
-			cout<<"\n\nEnter flight source: " << endl;
-			cin >> src;
-			cout<<"\n\nEnter flight destination: " << endl;
-			cin >> dst;
-			cout<<"\n\nEnter class (Business: 1, Economy: 2): " << endl;
-			cin >> f_class;
-			cout<<"\n\n\nEnter any key to continue: ";
-			getch();
-
-			cout << setw(5) << "F No" << setw(10) << "Airline" << setw(10) << "Source";
-			for (int i = 0; i <= n; i++){
-				if (strcmp(src,flight[i].src) && strcmp(dst, flight[i].dst) && date == flight[i].etd && flight[i].price >= pmin && flight[i].price <=pmax);
-					disp_search(i);
-			}
-		}
-		*/
-
-		//----------------------------------------------------------------------------//
-
 		#include<process.h>
 		#include<string.h>
 		void status()
@@ -242,7 +178,7 @@
 			 cout<<"\nenter destination airport code :";
 			 char des[4];
 			 cin>>des;
-			 int count=0;
+			int count=0;
 			 for(int i=0; i<n; i++)
 			 {
 				  if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0)
@@ -253,7 +189,7 @@
 						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 						cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 						cout<<"\n\n"<<"cost per seat : "<< flight[i].price;
-				  	count++;
+					count++;
 				  }
 			 }
 			 if(count !=0)
@@ -275,6 +211,7 @@
 
 		void userf()
 		{
+
 			 int x=1;
 			 do{
 				 cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
@@ -328,6 +265,7 @@
 			 char userName[20];
 			 char userPassword[20];
 			 int loginAttempt = 0;
+			 int i;
 
 			 while (loginAttempt < 5)
 			 {
@@ -335,7 +273,7 @@
 				  cin >> userName;
 				  cout<<"\nPlease enter your user password: ";
 				  cin >> userPassword;
-					for(int i=0; i<5; i++)
+					for(i=0; i<5; i++)
 					{
 
 						if(strcmp(userName, userData[i])==0 && strcmp(userPassword, passData[i])==0)
@@ -347,7 +285,7 @@
 							}
 					}
 
-					for(int i=0; i<5; i++)
+					for(i=0; i<5; i++)
 					{
 						if(strcmp(userName, airlineData[i])==0 && strcmp(userPassword, airlinePassData[i])==0)
 								{
