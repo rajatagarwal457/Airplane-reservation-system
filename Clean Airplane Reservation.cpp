@@ -54,10 +54,10 @@
 			for(int i=0; i<n; i++)
 			{
 
-						cout<<"\n\n"<<"No."<<i + 1;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+						cout<<"\n\n"<<"No."<< (i + 1);
+						cout<<"\n\n"<<"--------------------------------------------------------------------------------";
 						cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+						cout<<"\n\n"<<"--------------------------------------------------------------------------------";
 						cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 						cout<<"\n\n"<<"cost per seat "<< flight[i].price;
 
@@ -79,7 +79,7 @@
 			cout<<"\n\nEnter Estimated time of Departure (24 hour):" << endl;
 			cin >> flight[n].etdh;
 
-			cout<<"\n\n\nEnter Date of Arrival: (DD MM YYYY): " << endl;
+			cout<<"\nEnter Date of Arrival: (DD MM YYYY): " << endl;
 			cin >> flight[n].eta.day >> flight[n].eta.month >> flight[n].eta.year;
 
 			cout<<"\n\nEnter Estimated time of Arrival (24 hour):" << endl;
@@ -96,19 +96,19 @@
 
 
 			//input destination and source
-			cout<<"\n\n\nEnter Source Airport: " << endl;
+			cout<<"\nEnter Source Airport: " << endl;
 			cin>>flight[n].src;
 
 			cout<<"\n\nEnter Destination Airport: " << endl;
 			cin>>flight[n].dst;
 
-			cout<<"enter cost per seat :";
+			cout<<"\nenter cost per seat :";
 			cin>>flight[n].price;
 
 			n++;
 
 			//continue
-			cout<<"\n\n\nEnter any key to continue";
+			cout<<"\nEnter any key to continue";
 			getch();
 
 		}
@@ -151,9 +151,11 @@
 		void pay(int pos)
 		{
 				cout<<"\nenter card no. :";
-				double card_no;
-				cin>>card_no;
-				cout<<"\n\nenter CVV";
+				double card_no[16];
+				for(int j = 0; j < 16; j++){
+					cin >> card_no[j];
+				}
+				cout<<"\n\nenter CVV :";
 				int CVV;
 				cin >> CVV;
 				cout<<"\nproccessing payment...";
@@ -197,7 +199,7 @@
 				 cout<<"\nenter serial no of flight to book :";
 			 	 int b;
 			 	 cin>>b;
-			 	 char f_no[6];
+				 char f_no[6];
 			   strcpy(f_no, flight[b-1].num);
 			   confirmation(f_no, (b-1));
 			 }
@@ -215,7 +217,7 @@
 			 int x=1;
 			 do{
 				 cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
-		     cout<<"\n\noption: ";
+			  cout<<"\n\noption: ";
 				 int ch;
 				 cin>>ch;
 				 switch(ch){
@@ -224,7 +226,7 @@
 					 case 2:status();
 							  break;
 					 case 3:cout<<"\nThank you for using our services!!";
-					 				x=0;
+									x=0;
 							    break;
 				 }
 			 }while(x);
@@ -232,7 +234,7 @@
 		void admin()
 		{
 			  int x=1;
-		    do{
+			 do{
 				cout<<"\n1. Add flight\n2. Delete flight\n3. Exit";
 				cout<<"\n\nOption :";
 				int ch;
@@ -263,20 +265,42 @@
 			 strcpy(airlineData[0], "airline");
 			 strcpy(airlinePassData[0], "abcd");
 			 char userName[20];
-			 char userPassword[20];
+			 char pass[20];
 			 int loginAttempt = 0;
-			 int i;
+			 int i,c=0;
 
 			 while (loginAttempt < 5)
 			 {
 				  cout<<"\nPlease enter your user name: ";
 				  cin >> userName;
 				  cout<<"\nPlease enter your user password: ";
-				  cin >> userPassword;
+					for(i=0;i<20;i++)
+				  {
+				    pass[i]=getch();
+					 c++;
+				    if(pass[i]==8)
+				    {
+						c-=2;
+						i-=2;
+							cout<<"\n\b\b";
+					 }
+						if(pass[i]=='\r')
+						{
+							break;
+						}
+
+
+						cout<<"*";
+
+				  }
+				  pass[i]='\0';
+				  
+
+
 					for(i=0; i<5; i++)
 					{
 
-						if(strcmp(userName, userData[i])==0 && strcmp(userPassword, passData[i])==0)
+						if(strcmp(userName, userData[i])==0 && strcmp(pass, passData[i])==0)
 							{
 								userf();
 								loginAttempt=0;
@@ -287,10 +311,10 @@
 
 					for(i=0; i<5; i++)
 					{
-						if(strcmp(userName, airlineData[i])==0 && strcmp(userPassword, airlinePassData[i])==0)
+						if(strcmp(userName, airlineData[i])==0 && strcmp(pass, airlinePassData[i])==0)
 								{
 									admin();
-								  loginAttempt=0;
+									loginAttempt=0;
 									i=0;
 									break;
 								}
