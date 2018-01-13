@@ -254,7 +254,7 @@ int main()
    char userData[20][20];
    char passData[20][20];
    char airlineData[20][20];
-   char airlinePassData[20][5];
+   char airlinePassData[20][20];
    strcpy(userData[0], "rajat");
    strcpy(passData[0], "rajat");
    strcpy(userData[1], "ayush");
