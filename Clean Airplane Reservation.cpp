@@ -1,7 +1,7 @@
 /*
 			Airline Reservation System
 			Date: 08/12/2017
-			Author: @Ayush Agrawal, @Rajat Agarwal
+			Author: @Ayush Agrawal, @Rajat Agarwal,@Pavan Bykampadi
 		*/
 
 		int main();
@@ -22,16 +22,31 @@
 				  dst[4];
 
 			int price,
-				 booked,
+				 seats,
 				 etdh,				//etd hour
 				 etah;            //eta hour
 
 			Date etd,
 				  eta;
-			//Aircraft aircraft;
+
 		};
 
 
+		struct User {
+
+			char name[20],
+				  pwd[20];
+
+			int booked[10],
+				 bcount,
+				 type;  					//0 - user, 1 - airline
+
+		} user[10];
+
+
+		/*
+			Hardcoded values
+		*/
 
 		/*
 			Functions for AIRS Flights
@@ -46,7 +61,30 @@
 		#include <conio.h>
 
 		Flight flight[100];
-		int n = 0; 											//number of flights
+		int n = 0, upos = 0; 											//number of flights, user logged in
+
+		void password(char pass[]){
+
+			cout<<"\nPlease enter your user password: ";
+			for(int i=0;i<20;i++)
+			{
+				 pass[i]=getch();
+
+				 if(pass[i] !=8) {
+					 cout<<"*";
+
+					 if(pass[i]=='\r')
+						break;
+				 }
+				 else if(pass[i]==8 && i > 0)
+				 {
+					i-=2;
+					cout<<"\b\b";
+				 }
+			}
+			pass[i]='\0';
+		}
+
 
 
 		void display_flights()
@@ -64,9 +102,8 @@
 
 				}
 		}
+
 		void add_flight(){
-
-
 
 			//enter airline
 			cout<<"\nEnter Airline:";
@@ -130,12 +167,17 @@
 
 		#include<process.h>
 		#include<string.h>
+
 		void status()
 		{
-				int count=0;
+				int count=0, bcount;
+
+				bcount = user[upos].bcount;
+
 				for(int i=0; i<n; i++)
 				{
-						if(flight[i].booked==1)
+					for(int j = 0; j < bcount; j++){
+						if(user[upos].booked[j] == i)
 						{
 							cout<<"\n\n"<<"No."<<count + 1;
 							cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
@@ -146,32 +188,45 @@
 							count++;
 						}
 					}
+				}
 
 		}
 		void pay(int pos)
 		{
-				cout<<"\nenter card no. :";
-				double card_no[16];
-				for(int j = 0; j < 16; j++){
-					cin >> card_no[j];
-				}
-				cout<<"\n\nenter CVV :";
-				int CVV;
-				cin >> CVV;
-				cout<<"\nproccessing payment...";
-				for (double i = 0; i < 100000000; i++) {}
-				flight[pos].booked=1;
+			int bcount, CVV;
+			cout<<"\nenter card no. :";
+			double card_no[16];
+
+			for(int j = 0; j < 16; j++)
+				cin >> card_no[j];
+
+			cout<<"\n\nenter CVV :";
+
+			cin >> CVV;
+			cout<<"\nproccessing payment...";
+			for (double i = 0; i < 100000000; i++) {}
+			bcount = user[upos].bcount;
+
+			user[upos].booked[bcount] = pos;
+			bcount++;
+
+
 		}
+
 		void confirmation(char f_no[6], int pos)
 		{
-			 cout<<"\nenter no. of seats :";
 			 int seats;
+
+			 cout<<"\nenter no. of seats :";
 			 cin>>seats;
+
 			 cout<<"\nPrice payable :"<< flight[pos].price * seats;
+
 			 cout<<"\n\n"<<"press any key to continue to payment page";
-				getch();
+			 getch();
 			 pay(pos);
 		}
+
 		void search()
 		{
 			 cout<<"\nenter source airport code :";
@@ -180,28 +235,29 @@
 			 cout<<"\nenter destination airport code :";
 			 char des[4];
 			 cin>>des;
-			int count=0;
+
+			 int count=0;
 			 for(int i=0; i<n; i++)
 			 {
 				  if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0)
 				  {
-				  	cout<<"\n\n"<<"No."<<count + 1;
+						cout<<"\n\n"<<"No."<<count + 1;
 						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 						cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
 						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 						cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 						cout<<"\n\n"<<"cost per seat : "<< flight[i].price;
-					count++;
+						count++;
 				  }
 			 }
 			 if(count !=0)
 			 {
 				 cout<<"\nenter serial no of flight to book :";
-			 	 int b;
-			 	 cin>>b;
+				 int b;
+				 cin>>b;
 				 char f_no[6];
-			   strcpy(f_no, flight[b-1].num);
-			   confirmation(f_no, (b-1));
+				 strcpy(f_no, flight[b-1].num);
+				 confirmation(f_no, (b-1));
 			 }
 			 else
 			 {
@@ -227,7 +283,7 @@
 							  break;
 					 case 3:cout<<"\nThank you for using our services!!";
 									x=0;
-							    break;
+								 break;
 				 }
 			 }while(x);
 		}
@@ -254,16 +310,26 @@
 
 		int main()
 		{
-			 char userData[20][20];
-			 char passData[20][20];
-			 char airlineData[20][20];
-			 char airlinePassData[20][5];
-			 strcpy(userData[0], "rajat");
-			 strcpy(passData[0], "rajat");
-			 strcpy(userData[1], "ayush");
-			 strcpy(passData[1], "ayush");
-			 strcpy(airlineData[0], "airline");
-			 strcpy(airlinePassData[0], "abcd");
+      	 strcpy(user[0].name, "ayush");
+			 strcpy(user[1].name, "rajat");
+			 strcpy(user[2].name, "pavan");
+			 strcpy(user[3].name, "airline");
+
+			 strcpy(user[0].pwd, "ayush");
+			 strcpy(user[1].pwd, "rajat");
+			 strcpy(user[2].pwd, "pavan");
+			 strcpy(user[3].pwd, "airline");
+
+			 user[0].bcount = 0;
+			 user[1].bcount = 0;
+			 user[2].bcount = 0;
+			 user[3].bcount = 0;
+
+			 user[0].type = 0;
+			 user[1].type = 0;
+			 user[2].type = 0;
+			 user[3].type = 1;
+
 			 char userName[20];
 			 char pass[20];
 			 int loginAttempt = 0;
@@ -273,51 +339,23 @@
 			 {
 				  cout<<"\nPlease enter your user name: ";
 				  cin >> userName;
-				  cout<<"\nPlease enter your user password: ";
-					for(i=0;i<20;i++)
-				  {
-				    pass[i]=getch();
-					 c++;
-				    if(pass[i]==8)
-				    {
-						c-=2;
-						i-=2;
-							cout<<"\n\b\b";
-					 }
-						if(pass[i]=='\r')
-						{
-							break;
-						}
 
+				  password(pass);
 
-						cout<<"*";
-
-				  }
-				  pass[i]='\0';
-				  
-
-
-					for(i=0; i<5; i++)
+					for(i=0; i<10; i++)
 					{
-
-						if(strcmp(userName, userData[i])==0 && strcmp(pass, passData[i])==0)
+						if(strcmp(userName, user[i].name)==0 && strcmp(pass, user[i].pwd)==0)
 							{
-								userf();
+								if (user[i].type == 0)
+									userf();
+								else
+									admin();
+
 								loginAttempt=0;
-								i=0;
+								upos = i;
+
 								break;
 							}
-					}
-
-					for(i=0; i<5; i++)
-					{
-						if(strcmp(userName, airlineData[i])==0 && strcmp(pass, airlinePassData[i])==0)
-								{
-									admin();
-									loginAttempt=0;
-									i=0;
-									break;
-								}
 					}
 			 }
 			 if (loginAttempt == 5)
