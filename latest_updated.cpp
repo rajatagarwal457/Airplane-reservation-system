@@ -188,7 +188,7 @@ void status()
 
 	for(int i=0; i<n; i++)
 	{
-		for(int j = 0; j < bcount; j++)
+		for(int j = 0; j <= bcount; j++)
 		{
 			if(user[upos].booked[j] == i)
 			{
@@ -198,6 +198,8 @@ void status()
 				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 				cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
 				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+				cout<<"\n\n"<<"Departure Date: "<<flight[i].etd.day<<" "<<flight[i].etd.month<<" "<<flight[i].etd.year;
+				cout<<"\n\n"<<"Arrival Date:   "<<flight[i].eta.day<<" "<<flight[i].eta.month<<" "<<flight[i].eta.year;
 				cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 				cout<<"\n\n"<<"cost per seat "<< flight[i].price;
 				count++;
@@ -217,7 +219,7 @@ void status()
 		cin>>conf;
 		if(conf=='C' || conf=='c')
 		{
-			user[upos].booked[bcount] = -1;
+			user[upos].booked[a[cpos-1]] = -1;
 			user[upos].bcount--;
 			bcount--;
 		}
