@@ -1,370 +1,434 @@
 /*
-			Airline Reservation System
-			Date: 08/12/2017
-			Author: @Ayush Agrawal, @Rajat Agarwal
-		*/
+Airline Reservation System
+Date: 08/12/2017
+Author: @Ayush Agrawal, @Rajat Agarwal,@Pavan Bykampadi
+*/
 
-		int main();
-		void admin();
-		struct Date{
+int main();
+void admin();
+struct Date{
 
-			int day,
-				 month,
-				 year;
+	int day,
+	month,
+	year;
 
-		};
+};
 
-		struct Aircraft{
+struct Flight{
 
-			char name[20];
-			int rows,
-				 cols,
-				 aislepos;
+	char num[6],
+	al[20],
+	src[4],
+	dst[4];
 
-		};
+	int price,
+	seats,
+	etdh,				//etd hour
+	etah;            //eta hour
 
-		struct Airline{
+	Date etd,
+	eta;
 
-			char name[20],
-				  pwd[20];
-
-		};
-
-		struct Flight{
-
-			char num[6],
-				  al[20],
-				  src[4],
-				  dst[4];
-
-			int price,
-				 booked,
-				 etdh,				//etd hour
-				 etah;            //eta hour
-
-			Date etd,
-				  eta;
-			//Aircraft aircraft;
-		};
-
-		struct User{
-
-			char name[20],
-				  pwd[20];
-			int  type; 			//0 - airline, 1 - user
-
-		};
+};
 
 
-		//----------------------------------------------------------------------------//
+struct User {
+
+	char name[20],
+	pwd[20];
+
+	int booked[10],
+	bcount,
+	type;  					//0 - user, 1 - airline
+
+} user[10];
 
 
-		/*
-			Functions for AIRS Flights
-			Date: 19/12/2017
-			Author: @Ayush Agrawal, @Rajat Agarwal
-		*/
+/*
+Hardcoded values
+*/
 
-		#include <iostream.h>
-		#include <stdio.h>
-		#include <stdlib.h>
-		#include <iomanip.h>
-		#include <conio.h>
+/*
+Functions for AIRS Flights
+Date: 19/12/2017
+Author: @Ayush Agrawal, @Rajat Agarwal
+*/
 
-		Flight flight[100];
-		int n = 0; 											//number of flights
+#include <iostream,h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip,h>
+#include <conio.h>
+#include <string.h>
 
+Flight flight[100];
 
-		void display_flights()
+int n = 4, upos = 0,i; 											//number of flights, user logged in
+
+void password(char pass[]){
+
+	cout<<"\nPlease enter your user password: ";
+	for(i=0;i<20;i++)
+	{
+		pass[i]=getch();
+
+		if(pass[i] !=8) {
+			cout<<"*";
+
+			if(pass[i]=='\r')
+			break;
+		}
+		else if(pass[i]==8 && i > 0)
 		{
-			for(int i=0; i<n; i++)
+			i-=2;
+			cout<<"\b\b";
+		}
+	}
+	pass[i]='\0';
+}
+
+
+
+void display_flights()
+{
+	for(int i=0; i<n; i++)
+	{
+
+		cout<<"\n\n"<<"No."<< (i + 1);
+		cout<<"\n\n"<<"-----------------------------------------------------------------------------";
+		cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
+		cout<<"\n\n"<<"-----------------------------------------------------------------------------";
+		cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
+		cout<<"\n\n"<<"cost per seat "<< flight[i].price;
+
+
+	}
+}
+
+void add_flight(){
+
+	//enter airline
+	cout<<"\nEnter Airline:";
+	cin>>flight[n].al;
+
+	//input flight time
+	cout<<"\n\nEnter Date of Departure: (DD MM YYYY): " << endl;
+	cin >> flight[n].etd.day >> flight[n].etd.month >> flight[n].etd.year;
+
+	cout<<"\n\nEnter Estimated time of Departure (24 hour):" << endl;
+	cin >> flight[n].etdh;
+
+	cout<<"\nEnter Date of Arrival: (DD MM YYYY): " << endl;
+	cin >> flight[n].eta.day >> flight[n].eta.month >> flight[n].eta.year;
+
+	cout<<"\n\nEnter Estimated time of Arrival (24 hour):" << endl;
+	cin >> flight[n].etah;
+
+	//generates flight number (eg AI250 etc)
+	char fno[6];
+	int i;
+
+	for (i = 0; i < 2; i++)
+	fno[i] = flight[n].al[i];
+
+	for (; i < 5; i++){
+
+	  fno[i] = rand() % 10 + 49;
+}
+
+	fno[6]='\0';
+
+	strcpy(flight[n].num, fno);
+
+
+	//input destination and source
+	cout<<"\nEnter Source Airport: " << endl;
+	cin>>flight[n].src;
+
+	cout<<"\n\nEnter Destination Airport: " << endl;
+	cin>>flight[n].dst;
+
+	cout<<"\nenter cost per seat :";
+	cin>>flight[n].price;
+
+	n++;
+
+	//continue
+	cout<<"\nEnter any key to continue";
+	getch();
+
+}
+
+void del_flight(){
+
+	display_flights();
+
+	cout<<"\nEnter sl no of flight to be deleted";
+	int pos;
+
+	cin >> pos;
+
+
+	for (int i = pos - 1; i <= n; i++)
+	flight[i] = flight[i+1];
+	n--;
+}
+
+#include<process.h>
+#include<string.h>
+
+void status()
+{
+	int count=0, bcount;
+
+	bcount = user[upos].bcount;
+
+	for(int i=0; i<n; i++)
+	{
+		for(int j = 0; j < bcount; j++){
+			if(user[upos].booked[j] == i)
 			{
-
-						cout<<"\n\n"<<"No."<<i + 1;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-						cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-						cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
-						cout<<"\n\n"<<"cost per seat "<< flight[i].price;
-
-
-				}
-		}
-		void add_flight(){
-
-
-
-			//enter airline
-			cout<<"\nEnter Airline:";
-			cin>>flight[n].al;
-
-			//input flight time
-			cout<<"\n\nEnter Date of Departure: (DD MM YYYY): " << endl;
-			cin >> flight[n].etd.day >> flight[n].etd.month >> flight[n].etd.year;
-
-			cout<<"\n\nEnter Estimated time of Departure (24 hour):" << endl;
-			cin >> flight[n].etdh;
-
-			cout<<"\n\n\nEnter Date of Arrival: (DD MM YYYY): " << endl;
-			cin >> flight[n].eta.day >> flight[n].eta.month >> flight[n].eta.year;
-
-			cout<<"\n\nEnter Estimated time of Arrival (24 hour):" << endl;
-			cin >> flight[n].etah;
-
-			//generates flight number (eg AI250 etc)
-			char fno[5];
-			int i;
-			for (i = 0; i < 2; i++)
-				fno[i] = flight[n].al[i];
-
-			for (; i < 5; i++)
-				fno[i] = rand( ) % 10;
-
-
-			//input destination and source
-			cout<<"\n\n\nEnter Source Airport: " << endl;
-			cin>>flight[n].src;
-
-			cout<<"\n\nEnter Destination Airport: " << endl;
-			cin>>flight[n].dst;
-
-			cout<<"enter cost per seat :";
-			cin>>flight[n].price;
-
-			n++;
-
-			//continue
-			cout<<"\n\n\nEnter any key to continue";
-			getch();
-
-		}
-
-		void del_flight(){
-
-			display_flights();
-
-			cout<<"\nEnter sl no of flight to be deleted";
-			int pos;
-
-			cin >> pos;
-
-
-			for (int i = pos - 1; i <= n; i++)
-				flight[i] = flight[i+1];
-			n--;
-		}
-
-
-		//----------------------------------------------------------------------------//
-
-
-		/*void disp_search(int day, int hour, int year, int f_class, int pmin, int pmax){
-
-
-		}
-
-
-		void search_flight(){
-
-			//Enter flight details
-			int f_class, pmin = 0, pmax = 100000;
-			Date date;
-			char filt, src[4], dst[4];
-			cout<<"\n\nEnter date of flight (DD MM YYYY):" << endl;
-			cin >> date.day >> date.month >> date.year;
-			cout<<"\n\nEnter flight source: " << endl;
-			cin >> src;
-			cout<<"\n\nEnter flight destination: " << endl;
-			cin >> dst;
-			cout<<"\n\nEnter class (Business: 1, Economy: 2): " << endl;
-			cin >> f_class;
-			cout<<"\n\n\nEnter any key to continue: ";
-			getch();
-
-			cout << setw(5) << "F No" << setw(10) << "Airline" << setw(10) << "Source";
-			for (int i = 0; i <= n; i++){
-				if (strcmp(src,flight[i].src) && strcmp(dst, flight[i].dst) && date == flight[i].etd && flight[i].price >= pmin && flight[i].price <=pmax);
-					disp_search(i);
+				cout<<"\n\n"<<"No."<<count + 1;
+				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+				cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
+				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+				cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
+				cout<<"\n\n"<<"cost per seat "<< flight[i].price;
+				count++;
 			}
 		}
-		*/
+	}
 
-		//----------------------------------------------------------------------------//
+}
+void pay(int pos)
+{
+	int bcount, CVV;
+	cout<<"\nenter card no. :";
+	double card_no[16];
 
-		#include<process.h>
-		#include<string.h>
-		void status()
+	for(int j = 0; j < 16; j++)
+	cin >> card_no[j];
+
+	cout<<"\n\nenter CVV :";
+
+	cin >> CVV;
+	cout<<"\nproccessing payment...";
+	for (double i = 0; i < 100000000; i++) {}
+	bcount = user[upos].bcount;
+
+	user[upos].booked[bcount] = pos;
+	bcount++;
+
+
+}
+
+void confirmation(char f_no[6], int pos)
+{
+	int seats;
+
+	cout<<"\nenter no. of seats :";
+	cin>>seats;
+
+	cout<<"\nPrice payable :"<< flight[pos].price * seats;
+
+	cout<<"\n\n"<<"press any key to continue to payment page";
+	getch();
+	pay(pos);
+}
+
+void search()
+{
+	cout<<"\nenter source airport code :";
+	char src[4];
+	cin>>src;
+	cout<<"\nenter destination airport code :";
+	char des[4];
+	cin>>des;
+
+	int count=0;
+	for(int i=0; i<n; i++)
+	{
+		if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0)
 		{
-				int count=0;
-				for(int i=0; i<n; i++)
-				{
-						if(flight[i].booked==1)
-						{
-							cout<<"\n\n"<<"No."<<count + 1;
-							cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-							cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
-							cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-							cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
-							cout<<"\n\n"<<"cost per seat "<< flight[i].price;
-							count++;
-						}
-					}
+			cout<<"\n\n"<<"No."<<count + 1;
+			cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+			cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
+			cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+			cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
+			cout<<"\n\n"<<"cost per seat : "<< flight[i].price;
+			count++;
+		}
+	}
+	if(count !=0)
+	{
+		cout<<"\nenter serial no of flight to book :";
+		int b;
+		cin>>b;
+		char f_no[6];
+		strcpy(f_no, flight[b-1].num);
+		confirmation(f_no, (b-1));
+	}
+	else
+	{
+		cout<<"\nSorry!No flights match your request";
+	}
+
+}
+
+
+void userf()
+{
+
+	int x=1;
+	do{
+		cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
+		cout<<"\n\noption: ";
+		int ch;
+		cin>>ch;
+		switch(ch){
+			case 1:search();
+			break;
+			case 2:status();
+			break;
+			case 3:cout<<"\nThank you for using our services!!";
+			x=0;
+			break;
+		}
+	}while(x);
+}
+void admin()
+{
+	int x=1;
+	do{
+		cout<<"\n1. Add flight\n2. Delete flight\n3. Exit";
+		cout<<"\n\nOption :";
+		int ch;
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:add_flight();
+			break;
+			case 2:del_flight();
+			break;
+			case 3:x=0;
+			break;
 
 		}
-		void pay(int pos)
+	}while(x);
+}
+
+int main()
+{
+	//Hardcoded values
+
+	//Users
+	strcpy(user[0].name, "ayush");
+	strcpy(user[1].name, "rajat");
+	strcpy(user[2].name, "pavan");
+	strcpy(user[3].name, "airline");
+
+	strcpy(user[0].pwd, "ayush");
+	strcpy(user[1].pwd, "rajat");
+	strcpy(user[2].pwd, "pavan");
+	strcpy(user[3].pwd, "airline");
+
+	user[0].bcount = 0;
+	user[1].bcount = 0;
+	user[2].bcount = 0;
+	user[3].bcount = 0;
+
+	user[0].type = 0;
+	user[1].type = 0;
+	user[2].type = 0;
+	user[3].type = 1;
+
+	//Flights
+	flight[0].price=20000;
+	flight[0].seats=150;
+	flight[0].etdh=1200;
+	flight[0].etah=1400;
+	flight[0].etd.day=6;
+	flight[0].etd.month=9;
+	flight[0].etd.year=2018;
+
+	flight[1].price=25000;
+	flight[1].seats=150;
+	flight[1].etdh=1100;
+	flight[1].etah=1500;
+	flight[1].etd.day=6;
+	flight[1].etd.month=9;
+	flight[1].etd.year=2018;
+
+	flight[2].price=27000;
+	flight[2].seats=150;
+	flight[2].etdh=1000;
+	flight[2].etah=1400;
+	flight[2].etd.day=8;
+	flight[2].etd.month=10;
+	flight[2].etd.year=2018;
+
+	flight[3].price=30000;
+	flight[3].seats=180;
+	flight[3].etdh=2000;
+	flight[3].etah=2350;
+	flight[3].etd.day=6;
+	flight[3].etd.month=9;
+	flight[3].etd.year=2018;
+
+	strcpy(flight[0].al,"Emirates");
+	strcpy(flight[0].src,"blr");
+	strcpy(flight[0].dst,"dxb");
+	strcpy(flight[0].num,"em469");
+
+	strcpy(flight[1].al,"Emirates");
+	strcpy(flight[1].src,"dxb");
+	strcpy(flight[1].dst,"gnv");
+	strcpy(flight[1].num,"em369");
+
+	strcpy(flight[2].al,"Air France");
+	strcpy(flight[2].src,"blr");
+	strcpy(flight[2].dst,"cdg");
+	strcpy(flight[2].num,"ai489");
+
+	strcpy(flight[3].al,"Ethihad");
+	strcpy(flight[3].src,"blr");
+	strcpy(flight[3].dst,"dbx");
+	strcpy(flight[3].num,"et420");
+
+	char userName[20];
+	char pass[20];
+	int loginAttempt = 0;
+	int i,c=0;
+
+	while (loginAttempt < 5)
+	{
+		cout<<"\nPlease enter your user name: ";
+		cin >> userName;
+
+		password(pass);
+
+		for(i=0; i<10; i++)
 		{
-				cout<<"\nenter card no. :";
-				double card_no;
-				cin>>card_no;
-				cout<<"\n\nenter CVV";
-				int CVV;
-				cin >> CVV;
-				cout<<"\nproccessing payment...";
-				for (double i = 0; i < 100000000; i++) {}
-				flight[pos].booked=1;
+			if(strcmp(userName, user[i].name)==0 && strcmp(pass, user[i].pwd)==0)
+			{
+				if (user[i].type == 0)
+				userf();
+				else
+				admin();
+
+				loginAttempt=0;
+				upos = i;
+
+				break;
+			}
 		}
-		void confirmation(char f_no[6], int pos)
-		{
-			 cout<<"\nenter no. of seats :";
-			 int seats;
-			 cin>>seats;
-			 cout<<"\nPrice payable :"<< flight[pos].price * seats;
-			 cout<<"\n\n"<<"press any key to continue to payment page";
-				getch();
-			 pay(pos);
-		}
-		void search()
-		{
-			 cout<<"\nenter source airport code :";
-			 char src[4];
-			 cin>>src;
-			 cout<<"\nenter destination airport code :";
-			 char des[4];
-			 cin>>des;
-			int count=0;
-			 for(int i=0; i<n; i++)
-			 {
-				  if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0)
-				  {
-				  	cout<<"\n\n"<<"No."<<count + 1;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-						cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
-						cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
-						cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
-						cout<<"\n\n"<<"cost per seat : "<< flight[i].price;
-					count++;
-				  }
-			 }
-			 if(count !=0)
-			 {
-				 cout<<"\nenter serial no of flight to book :";
-			 	 int b;
-			 	 cin>>b;
-			 	 char f_no[6];
-			   strcpy(f_no, flight[b-1].num);
-			   confirmation(f_no, (b-1));
-			 }
-			 else
-			 {
-				 cout<<"\nSorry!No flights match your request";
-			 }
+	}
+	if (loginAttempt == 5)
+	{
+		cout<<"\nToo many login attempts! The program will now terminate.";
 
-		}
+	}
 
-
-		void userf()
-		{
-
-			 int x=1;
-			 do{
-				 cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
-		     cout<<"\n\noption: ";
-				 int ch;
-				 cin>>ch;
-				 switch(ch){
-					 case 1:search();
-							  break;
-					 case 2:status();
-							  break;
-					 case 3:cout<<"\nThank you for using our services!!";
-					 				x=0;
-							    break;
-				 }
-			 }while(x);
-		}
-		void admin()
-		{
-			  int x=1;
-		    do{
-				cout<<"\n1. Add flight\n2. Delete flight\n3. Exit";
-				cout<<"\n\nOption :";
-				int ch;
-				cin>>ch;
-				switch(ch)
-				{
-					case 1:add_flight();
-									break;
-					case 2:del_flight();
-									break;
-					case 3:x=0;
-								 break;
-
-				}
-			}while(x);
-		}
-
-		int main()
-		{
-			 char userData[20][20];
-			 char passData[20][20];
-			 char airlineData[20][20];
-			 char airlinePassData[20][5];
-			 strcpy(userData[0], "rajat");
-			 strcpy(passData[0], "rajat");
-			 strcpy(userData[1], "ayush");
-			 strcpy(passData[1], "ayush");
-			 strcpy(airlineData[0], "airline");
-			 strcpy(airlinePassData[0], "abcd");
-			 char userName[20];
-			 char userPassword[20];
-			 int loginAttempt = 0;
-			 int i;
-
-			 while (loginAttempt < 5)
-			 {
-				  cout<<"\nPlease enter your user name: ";
-				  cin >> userName;
-				  cout<<"\nPlease enter your user password: ";
-				  cin >> userPassword;
-					for(i=0; i<5; i++)
-					{
-
-						if(strcmp(userName, userData[i])==0 && strcmp(userPassword, passData[i])==0)
-							{
-								userf();
-								loginAttempt=0;
-								i=0;
-								break;
-							}
-					}
-
-					for(i=0; i<5; i++)
-					{
-						if(strcmp(userName, airlineData[i])==0 && strcmp(userPassword, airlinePassData[i])==0)
-								{
-									admin();
-								  loginAttempt=0;
-									i=0;
-									break;
-								}
-					}
-			 }
-			 if (loginAttempt == 5)
-			 {
-						cout<<"\nToo many login attempts! The program will now terminate.";
-
-			 }
-
-			 cout<<"\nHave a good day!!\n";
-			 return 0;
-		}
+	cout<<"\nHave a good day!!\n";
+	return 0;
+}
