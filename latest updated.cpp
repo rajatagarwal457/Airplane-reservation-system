@@ -61,7 +61,7 @@ Author: @Ayush Agrawal, @Rajat Agarwal
 #include <conio.h>
 
 Flight flight[100];
-int n = 4, upos = 0; 											//number of flights, user logged in
+int n = 0, upos = 0; 											//number of flights, user logged in
 
 void password(char pass[]){
 	
@@ -123,14 +123,13 @@ void add_flight(){
 	cin >> flight[n].etah;
 	
 	//generates flight number (eg AI250 etc)
-
+	char fno[5];
 	int i;
 	for (i = 0; i < 2; i++)
-	flight[n].num[i] = flight[n].al[i];
-
-	randomize();
+	fno[i] = flight[n].al[i];
+	
 	for (; i < 5; i++)
-	flight[n].num[i] = random(10) % 10;
+	fno[i] = rand( ) % 10;
 	
 	
 	//input destination and source
@@ -384,7 +383,7 @@ int main()
 
 	strcpy(flight[3].al,"Ethihad");
 	strcpy(flight[3].src,"blr");
-	strcpy(flight[3].dst,"dxb");
+	strcpy(flight[3].dst,"dbx");
 	strcpy(flight[3].num,"et420");
 
 	char userName[20];
