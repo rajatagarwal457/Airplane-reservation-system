@@ -8,12 +8,15 @@ Author: @Ayush Agrawal, @Rajat Agarwal,@Pavan Bykampadi
 #include <stdlib.h>
 #include <iomanip>
 #include <conio.h>
+#include <process.h>
 #include <string.h>
+
 using namespace std;
 
 int main();
 void admin();
-struct Date{
+struct Date
+{
 
 	int day,
 	month,
@@ -21,7 +24,8 @@ struct Date{
 
 };
 
-struct Flight{
+struct Flight
+{
 
 	char num[6],
 	al[20],
@@ -39,7 +43,8 @@ struct Flight{
 };
 
 
-struct User {
+struct User
+{
 
 	char name[20],
 	pwd[20];
@@ -51,9 +56,7 @@ struct User {
 } user[10];
 
 
-/*
-Hardcoded values
-*/
+
 
 /*
 Functions for AIRS Flights
@@ -66,7 +69,8 @@ Flight flight[100];
 
 int n = 4, upos = 0,i,bcount; 											//number of flights, user logged in
 
-void password(char pass[]){
+void password(char pass[])
+{
 
 	cout<<"\nPlease enter your user password: ";
 	for(i=0;i<20;i++)
@@ -106,7 +110,8 @@ void display_flights()
 	}
 }
 
-void add_flight(){
+void add_flight()
+{
 
 	//enter airline
 	cout<<"\nEnter Airline:";
@@ -132,10 +137,8 @@ void add_flight(){
 	for (i = 0; i < 2; i++)
 	fno[i] = flight[n].al[i];
 
-	for (; i < 5; i++){
-
-	  fno[i] = rand() % 10 + 49;
-}
+	for (; i < 5; i++)
+	fno[i] = rand() % 10 + 49;
 
 	fno[6]='\0';
 
@@ -160,7 +163,8 @@ void add_flight(){
 
 }
 
-void del_flight(){
+void del_flight()
+{
 
 	display_flights();
 
@@ -175,8 +179,6 @@ void del_flight(){
 	n--;
 }
 
-#include<process.h>
-#include<string.h>
 
 void status()
 {
@@ -202,28 +204,24 @@ void status()
 			}
 		}
 	}
-		cout<<"\nPress R to return to main menu\nPress C to cancel a booking :";
-		char ch;
-		cin>>ch;
-		if(ch=='C' || ch=='c')
+	cout<<"\nPress R to return to main menu\nPress C to cancel a booking :";
+	char ch;
+	cin>>ch;
+	if(ch=='C' || ch=='c')
+	{
+		cout<<"\nenter serial number of flight to cancel :";
+		int cpos;
+		cin>>cpos;
+		cout<<"\nCancel flight from "<<flight[a[cpos-1]].src<<" to "<<flight[a[cpos-1]].dst<<"?\nPress C to confirm :";
+		char conf;
+		cin>>conf;
+		if(conf=='C' || conf=='c')
 		{
-			cout<<"\nenter serial number of flight to cancel :";
-			int cpos;
-			cin>>cpos;
-			cout<<"\nCancel flight from "<<flight[a[cpos-1]].src<<" to "<<flight[a[cpos-1]].dst<<"?\nPress C to confirm :";
-			char conf;
-			cin>>conf;
-			if(conf=='C' || conf=='c')
-			{
-				user[upos].booked[bcount] = -1;
-				user[upos].bcount--;
-				bcount--;
-			}
+			user[upos].booked[bcount] = -1;
+			user[upos].bcount--;
+			bcount--;
 		}
-
-
-
-
+	}
 }
 void pay(int pos)
 {
@@ -314,7 +312,8 @@ void userf()
 
 	int x=1;
 	::bcount=user[upos].bcount;
-	do{
+	do
+	{
 		cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
 		cout<<"\n\noption: ";
 		int ch;
@@ -333,7 +332,8 @@ void userf()
 void admin()
 {
 	int x=1;
-	do{
+	do
+	{
 		cout<<"\n1. Add flight\n2. Delete flight\n3. Exit";
 		cout<<"\n\nOption :";
 		int ch;
