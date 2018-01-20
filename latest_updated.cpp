@@ -3,6 +3,13 @@ Airline Reservation System
 Date: 08/12/2017
 Author: @Ayush Agrawal, @Rajat Agarwal,@Pavan Bykampadi
 */
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+#include <conio.h>
+#include <string.h>
+using namespace std;
 
 int main();
 void admin();
@@ -54,16 +61,10 @@ Date: 19/12/2017
 Author: @Ayush Agrawal, @Rajat Agarwal
 */
 
-#include <iostream,h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <iomanip,h>
-#include <conio.h>
-#include <string.h>
 
 Flight flight[100];
 
-int n = 4, upos = 0,i; 											//number of flights, user logged in
+int n = 4, upos = 0,i,bcount; 											//number of flights, user logged in
 
 void password(char pass[]){
 
@@ -163,7 +164,7 @@ void del_flight(){
 
 	display_flights();
 
-	cout<<"\nEnter sl no of flight to be deleted";
+	cout<<"\nEnter sl no of flight to be deleted :";
 	int pos;
 
 	cin >> pos;
@@ -179,15 +180,18 @@ void del_flight(){
 
 void status()
 {
-	int count=0, bcount;
+	int count=0,a[10],x=0;
 
 	bcount = user[upos].bcount;
 
 	for(int i=0; i<n; i++)
 	{
-		for(int j = 0; j < bcount; j++){
+		for(int j = 0; j < bcount; j++)
+		{
 			if(user[upos].booked[j] == i)
 			{
+				a[x]=i;
+				x++;
 				cout<<"\n\n"<<"No."<<count + 1;
 				cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 				cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
@@ -198,16 +202,37 @@ void status()
 			}
 		}
 	}
+		cout<<"\nPress R to return to main menu\nPress C to cancel a booking :";
+		char ch;
+		cin>>ch;
+		if(ch=='C' || ch=='c')
+		{
+			cout<<"\nenter serial number of flight to cancel :";
+			int cpos;
+			cin>>cpos;
+			cout<<"\nCancel flight from "<<flight[a[cpos-1]].src<<" to "<<flight[a[cpos-1]].dst<<"?\nPress C to confirm :";
+			char conf;
+			cin>>conf;
+			if(conf=='C' || conf=='c')
+			{
+				user[upos].booked[bcount] = -1;
+				user[upos].bcount--;
+				bcount--;
+			}
+		}
+
+
+
 
 }
 void pay(int pos)
 {
-	int bcount, CVV;
+	int CVV;
 	cout<<"\nenter card no. :";
-	double card_no[16];
+	double card_no;
 
-	for(int j = 0; j < 16; j++)
-	cin >> card_no[j];
+	//for(int j = 0; j < 16; j++)
+	cin >> card_no;
 
 	cout<<"\n\nenter CVV :";
 
@@ -217,12 +242,13 @@ void pay(int pos)
 	bcount = user[upos].bcount;
 
 	user[upos].booked[bcount] = pos;
+	user[upos].bcount++;
 	bcount++;
 
 
 }
 
-void confirmation(char f_no[6], int pos)
+void confirmation(int pos)
 {
 	int seats;
 
@@ -245,11 +271,18 @@ void search()
 	char des[4];
 	cin>>des;
 
-	int count=0;
+	int day, month, year;
+	cout<<"\nenter date of departure : (DD MM YYYY) :";
+	cin>>day>>month>>year;
+
+	int count=0, a[10],x=0;
 	for(int i=0; i<n; i++)
 	{
-		if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0)
+
+		if(strcmpi(src,flight[i].src)==0 && strcmpi(des,flight[i].dst)==0 && flight[i].etd.day==day && flight[i].etd.month==month && flight[i].etd.year==year)
 		{
+			a[x]=i;
+			x++;
 			cout<<"\n\n"<<"No."<<count + 1;
 			cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 			cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
@@ -264,9 +297,9 @@ void search()
 		cout<<"\nenter serial no of flight to book :";
 		int b;
 		cin>>b;
-		char f_no[6];
-		strcpy(f_no, flight[b-1].num);
-		confirmation(f_no, (b-1));
+
+
+		confirmation(a[b-1]);
 	}
 	else
 	{
@@ -280,6 +313,7 @@ void userf()
 {
 
 	int x=1;
+	::bcount=user[upos].bcount;
 	do{
 		cout<<"\n1: Search for flights\n2: View current booking\n3: Exit";
 		cout<<"\n\noption: ";
