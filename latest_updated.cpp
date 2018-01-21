@@ -35,7 +35,7 @@ struct Flight
 	int price,
 	seats,
 	etdh,				//etd hour
-	etah;            //eta hour
+	etah;       //eta hour
 
 	Date etd,
 	eta;
