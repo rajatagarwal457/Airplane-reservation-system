@@ -1,7 +1,7 @@
 /*
 Airline Reservation System
 Date: 08/12/2017
-Author: @Ayush Agrawal, @Rajat Agarwal,@Pavan Bykampadi
+Author: @Ayush Agrawal, @Rajat Agarwal, @Pavan Bykampadi
 */
 #include <iostream>
 #include <stdio.h>
