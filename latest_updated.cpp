@@ -103,6 +103,8 @@ void display_flights()
 		cout<<"\n\n"<<"-----------------------------------------------------------------------------";
 		cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
 		cout<<"\n\n"<<"-----------------------------------------------------------------------------";
+		cout<<"\n\n"<<"Departure Date: "<<flight[i].etd.day<<" "<<flight[i].etd.month<<" "<<flight[i].etd.year;
+		cout<<"\n\n"<<"Arrival Date:   "<<flight[i].eta.day<<" "<<flight[i].eta.month<<" "<<flight[i].eta.year;
 		cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 		cout<<"\n\n"<<"cost per seat "<< flight[i].price;
 
@@ -287,6 +289,8 @@ void search()
 			cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
 			cout<<"\n\n"<< flight[i].al << "\t" << flight[i].num;
 			cout<<"\n\n"<<"-----------------------------------------------------------------------------------";
+			cout<<"\n\n"<<"Departure Date: "<<flight[i].etd.day<<" "<<flight[i].etd.month<<" "<<flight[i].etd.year;
+			cout<<"\n\n"<<"Arrival Date:   "<<flight[i].eta.day<<" "<<flight[i].eta.month<<" "<<flight[i].eta.year;
 			cout<<"\n\n"<<"Departs at:"<< flight[i].etdh<<"\t"<<"Arrives at: "<< flight[i].etah;
 			cout<<"\n\n"<<"cost per seat : "<< flight[i].price;
 			count++;
