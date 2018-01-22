@@ -3,13 +3,15 @@ Airline Reservation System
 Date: 08/12/2017
 Author: @Ayush Agrawal, @Rajat Agarwal, @Pavan Bykampadi
 */
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <iomanip.h>
+#include <iomanip>
 #include <conio.h>
 #include <process.h>
 #include <string.h>
+
+using namespace std;
 
 
 
@@ -140,20 +142,25 @@ void preset_vals(){													//hardcoded value presets
 
 void password(char pass[])
 {
+	int i;
 
 	cout << "\nPassword: \n";
 
-	for(int i = 0; i < 20 ; i++) {
+	for(i = 0; i < 20 ; i++) {
 		pass[i]=getch();
 
-		if(pass[i] !=8) {								//8 = ASCII for backspace
+		if(pass[i] !=8 && pass[i] != '\r') {								//8 = ASCII for backspace
 			cout << "*";
+		}
+
 			if(pass[i] == '\r')							//If user presses enter
 			break;
-		}
+
 		else if(pass[i] == 8 && i > 0) {
 			i-=2;
-			cout << "\b\b";
+			putch('\b');
+      putch(' ');
+      putch('\b');
 		}
 	}
 	pass[i]='\0';
@@ -204,7 +211,8 @@ void drawline(){
 
 void header(){
 
-	clrscr();
+
+  system("cls");
 
 	cout << setw(60) << "Logged in as: " <<setw(20)<< user[upos].name;
 
@@ -545,21 +553,22 @@ int main()
 		{
 			if(strcmp(userName, user[i].name)==0 && strcmp(pass, user[i].pwd)==0)
 			{
+				upos = i;
 				if (user[i].type == 0)
 				userf();
 				else
 				admin();
 
 				loginAttempt=0;
-				upos = i;
-				flag = 1;
-				break;
+
+				//flag = 1;
+				//break;
 			}
 		}
 
-		if (!flag){
-			break;
-		}
+	//	if (!flag){
+		//	break;
+	//	}
 	}
 	if (loginAttempt == 5)
 	{

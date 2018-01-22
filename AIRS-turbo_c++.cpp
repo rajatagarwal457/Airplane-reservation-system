@@ -1,4 +1,4 @@
-              /*
+/*
 Airline Reservation System
 Date: 08/12/2017
 Author: @Ayush Agrawal, @Rajat Agarwal, @Pavan Bykampadi
@@ -10,6 +10,8 @@ Author: @Ayush Agrawal, @Rajat Agarwal, @Pavan Bykampadi
 #include <conio.h>
 #include <process.h>
 #include <string.h>
+
+//using namespace std;
 
 
 
@@ -140,20 +142,25 @@ void preset_vals(){													//hardcoded value presets
 
 void password(char pass[])
 {
+	int i;
 
 	cout << "\nPassword: \n";
 
-	for(int i = 0; i < 20 ; i++) {
+	for(i = 0; i < 20 ; i++) {
 		pass[i]=getch();
 
-		if(pass[i] !=8) {								//8 = ASCII for backspace
+		if(pass[i] !=8 && pass[i] != '\r') {								//8 = ASCII for backspace
 			cout << "*";
-			if(pass[i] == '\r')							//If user presses enter
-				break;
 		}
+
+			if(pass[i] == '\r')							//If user presses enter
+			break;
+
 		else if(pass[i] == 8 && i > 0) {
 			i-=2;
-			cout << "\b\b";
+			putch('\b');
+      putch(' ');
+      putch('\b');
 		}
 	}
 	pass[i]='\0';
@@ -180,9 +187,9 @@ void login(){
 			{
 				upos = i;
 				if (user[i].type == 0)
-					userf();
+				userf();
 				else
-					admin();
+				admin();
 
 				loginAttempt = 0;
 
@@ -194,7 +201,7 @@ void login(){
 	}
 
 	if (loginAttempt == 5)
-		cout << "\nToo many login attempts! The program will now terminate.";
+	cout << "\nToo many login attempts! The program will now terminate.";
 }
 
 
@@ -205,6 +212,7 @@ void drawline(){
 void header(){
 
 	clrscr();
+	//system("cls");
 
 	cout << setw(60) << "Logged in as: " <<setw(20)<< user[upos].name;
 
@@ -234,11 +242,11 @@ void display_flights() {
 	header();
 
 	table_header();
-	
+
 	drawline();
 
 	for(int i=0; i<n; i++)
-		table_line(i, i+1);
+	table_line(i, i+1);
 }
 
 
@@ -265,10 +273,10 @@ void add_flight() {
 
 	//generates flight number (eg AI250 etc)
 	for (i = 0; i < 2; i++)
-		fno[i] = flight[n].al[i];
+	fno[i] = flight[n].al[i];
 
 	for (; i < 5; i++)
-		fno[i] = rand() % 10 + 49;
+	fno[i] = rand() % 10 + 49;
 
 	fno[6]='\0';
 
@@ -305,7 +313,7 @@ void del_flight()
 	cin >> pos;
 
 	for (int i = pos - 1; i <= n; i++)
-		flight[i] = flight[i+1];
+	flight[i] = flight[i+1];
 
 	n--;
 }
@@ -358,7 +366,7 @@ void status()
 
 				//deleting entry
 				for (int i = cpos-1; i < bcount; i++)
-					user[upos].booked[i] = user[upos].booked[i+1];
+				user[upos].booked[i] = user[upos].booked[i+1];
 
 			}
 		} else if (ch != 'r' && ch != 'R') {
@@ -377,7 +385,7 @@ void pay(int pos)
 
 	cout << "\nenter card no. :";
 
-		cin >> card_no;
+	cin >> card_no;
 
 	cout << "\n\nenter CVV :";
 	cin >> CVV;
@@ -385,7 +393,7 @@ void pay(int pos)
 	cout << "\nproccessing payment...";
 	for (double aa = 0; aa < 50000000; aa++) {}			//delay timer
 
-		bcount = user[upos].bcount;
+	bcount = user[upos].bcount;
 
 	user[upos].booked[bcount] = pos;
 	user[upos].bcount++;
@@ -451,7 +459,7 @@ void search()
 		cin >> bpos;
 		confirmation(result[bpos-1]);					//result[bpos-1] gives corresponding index of flight as stored in Flights array
 	} else
-		cout << "\nSorry!No flights match your request";
+	cout << "\nSorry!No flights match your request";
 
 }
 
@@ -465,7 +473,7 @@ void userf()
 	do
 	{
 		if(ch > 3 || ch < 0)
-			cout << "Please enter value between 1 and 3";
+		cout << "Please enter value between 1 and 3";
 
 		header();
 		cout << "\n1: Search for flights\n2: View current booking\n3: Exit";
@@ -475,15 +483,15 @@ void userf()
 
 		switch(ch){
 			case 1:
-				search();
-				break;
+			search();
+			break;
 			case 2:
-				status();
-				break;
+			status();
+			break;
 			case 3:
-				cout << "\nThank you for using our services!!";
-				flag=0;
-				break;
+			cout << "\nThank you for using our services!!";
+			flag=0;
+			break;
 		}
 		ch = 0;
 	} while(flag && (ch > 3 || ch < 1));			//checks for correct input and exit
@@ -499,7 +507,7 @@ void admin()
 	do {
 
 		if (ch > 3 || ch < 1)
-			cout << "\nEnter valid option";
+		cout << "\nEnter valid option";
 
 		cout << "\n1. Add flight\n2. Delete flight\n3. Logout";
 		cout << "\n\nOption :";
@@ -508,14 +516,14 @@ void admin()
 		switch(ch)
 		{
 			case 1:
-				add_flight();
-				break;
+			add_flight();
+			break;
 			case 2:
-				del_flight();
-				break;
+			del_flight();
+			break;
 			case 3:
-				flag = 0;
-				break;
+			flag = 0;
+			break;
 		}
 		ch = 0;
 	} while (flag && (ch > 3 || ch < 1));
@@ -545,21 +553,22 @@ int main()
 		{
 			if(strcmp(userName, user[i].name)==0 && strcmp(pass, user[i].pwd)==0)
 			{
+				upos = i;
 				if (user[i].type == 0)
-					userf();
+				userf();
 				else
-					admin();
+				admin();
 
 				loginAttempt=0;
-				upos = i;
-				flag = 1;
-				break;
+
+				//flag = 1;
+				//break;
 			}
 		}
 
-		if (!flag){
-			break;
-		}
+	//	if (!flag){
+		//	break;
+	//	}
 	}
 	if (loginAttempt == 5)
 	{
