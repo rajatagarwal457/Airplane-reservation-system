@@ -181,44 +181,6 @@ void password(char pass[])
 }
 
 
-void login()
-{
-	char userName[20], pass[20];
-	int loginAttempt = 0, flag = 0;
-
-	while (loginAttempt < 5   &&   !flag)
-	{
-		if (loginAttempt > 0)
-		cout << "Incorrect username or password \n\n";
-
-		cout << "\nUser name: ";
-		cin >> userName;
-
-		password(pass);
-
-		for(int i = 0; i < 10; i++)
-		{
-			if(strcmp(userName, user[i].name) == 0    &&    strcmp(pass, user[i].pwd) == 0)
-			{
-				upos = i;
-				if (user[i].type == 0)
-				userf();
-				else
-				admin();
-
-				loginAttempt = 0;
-
-				flag = 1;
-
-				break;
-			}
-		}
-	}
-
-	if (loginAttempt == 5)
-	cout << "\nToo many login attempts! The program will now terminate.";
-}
-
 
 void drawline()
 {
@@ -406,7 +368,8 @@ void status()
 					}
 				}
 			}
-		} else if (ch != 'r' && ch != 'R')
+		}
+		else if (ch != 'r' && ch != 'R')
 		{
 			cout << "\n\n\nPlease enter valid input";
 		}
