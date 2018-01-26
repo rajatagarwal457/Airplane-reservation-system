@@ -221,10 +221,10 @@ void header(){
 
   system("cls");
 
-	cout << setw(60) << "Logged in as: " <<setw(20)<< user[upos].name;
+	cout << setw(75) << "Logged in as: " << user[upos].name;
 
 	drawline();
-	cout << "Airplane Reservation System";
+	cout << "\t\t\tAIRLINE RESERVATION SYSTEM";
 	drawline();
 }
 
@@ -472,6 +472,7 @@ void search()
 			j++;
 			sl++;
 
+
 			table_line(i, sl);
 		}
 	}
@@ -480,9 +481,9 @@ void search()
 		cout << "\n\n\nEnter serial no of flight to book :";
 		cin >> bpos;
 		confirmation(result[bpos-1]);					//result[bpos-1] gives corresponding index of flight as stored in Flights array
-	} else
-	cout << "\nSorry!No flights match your request";
-	getch();
+	} else{
+	cout << "\n\n\nSorry!No flights match your request";
+	getch();}
 
 }
 
@@ -556,7 +557,7 @@ void admin()
 int main()
 {
 	drawline();
-	cout << "AIRLINE RESERVATION SYSTEM";
+	cout << "\t\t\tAIRLINE RESERVATION SYSTEM";
 	drawline();
 
 	preset_vals();
@@ -571,7 +572,7 @@ int main()
 		cin >> userName;
 
 		password(pass);
-
+		loginAttempt++;
 		for(i=0; i<10; i++)
 		{
 			if(strcmp(userName, user[i].name)==0 && strcmp(pass, user[i].pwd)==0)
