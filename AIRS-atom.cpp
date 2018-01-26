@@ -30,11 +30,10 @@ struct Flight {
 	src[4],
 	dst[4];
 
-	int price,
-	seats,
+	int seats,
 	etdh,				//etd hour
 	etah;          //eta hour
-
+	double price;
 	Date etd;
 } flight[20];
 
@@ -78,6 +77,14 @@ void preset_vals(){													//hardcoded value presets
 	user[1].bcount = 0;
 	user[2].bcount = 0;
 	user[3].bcount = 0;
+
+	for(int ll=0;ll<4;ll++)
+	{
+		for(int jj=0;jj<10;jj++)
+		{
+			user[ll].booked[jj]=12;
+		}
+	}
 
 	user[0].type = 0;
 	user[1].type = 0;
@@ -335,7 +342,7 @@ void status()
 	{
 		for(int j = 0; j <= bcount; j++)
 		{
-			if(user[upos].booked[j] == i) {
+			if((user[upos].booked[j] == i  && i!=0)|| (user[upos].booked[j]==11 && i==0)) {
 
 				table_line(i, sl);
 				sl++;
@@ -355,20 +362,24 @@ void status()
 			cin >> cpos;
 
 			fpos = user[upos].booked[cpos-1];					//index of flight as stored in the Flights array
+			if(fpos==11)
+				fpos=0;
 
+			if(strcmp(flight[fpos].src, "") !=0){
 			cout << "\nCancel flight from "<<flight[fpos].src<<" to "<<flight[fpos].dst<<"?\nPress C to confirm :";
 			cin >> conf;
 
 			if(conf=='C' || conf=='c')
 			{
-				user[upos].bcount--;
-				bcount--;
+				user[upos].bcount-=2;
+				bcount-=2;
 
 				//deleting entry
 				for (int i = cpos-1; i < bcount; i++)
 				user[upos].booked[i] = user[upos].booked[i+1];
 
 			}
+		}
 		} else if (ch != 'r' && ch != 'R') {
 			cout << "\n\n\nPlease enter valid input";
 		}
@@ -395,7 +406,10 @@ void pay(int pos)
 
 	bcount = user[upos].bcount;
 
-	user[upos].booked[bcount] = pos;
+	if(pos!=0)
+		user[upos].booked[bcount] = pos;
+	else
+		user[upos].booked[bcount] = 11;
 	user[upos].bcount++;
 	bcount++;
 }
