@@ -360,7 +360,7 @@ void status()
 		if(ch=='C' || ch=='c') {
 			cout << "\nenter serial number of flight to cancel: ";
 			cin >> cpos;
-
+			if(cpos-1>=0){
 			fpos = user[upos].booked[cpos-1];					//index of flight as stored in the Flights array
 			if(fpos==11)
 				fpos=0;
@@ -371,8 +371,15 @@ void status()
 
 			if(conf=='C' || conf=='c')
 			{
-				user[upos].bcount-=2;
-				bcount-=2;
+				if(bcount==1)
+				{
+					user[upos].bcount--;
+					bcount--;
+				}
+
+				user[upos].bcount--;
+				bcount--;
+
 
 				//deleting entry
 				for (int i = cpos-1; i < bcount; i++)
@@ -380,6 +387,7 @@ void status()
 
 			}
 		}
+	}
 		} else if (ch != 'r' && ch != 'R') {
 			cout << "\n\n\nPlease enter valid input";
 		}
@@ -474,6 +482,7 @@ void search()
 		confirmation(result[bpos-1]);					//result[bpos-1] gives corresponding index of flight as stored in Flights array
 	} else
 	cout << "\nSorry!No flights match your request";
+	getch();
 
 }
 
