@@ -18,13 +18,15 @@ using namespace std;
 int main();
 void admin();
 void userf();
-struct Date {
+struct Date
+{
 	int day,
 	month,
 	year;
 };
 
-struct Flight {
+struct Flight
+{
 	char num[6],
 	al[20],
 	src[4],
@@ -38,7 +40,8 @@ struct Flight {
 } flight[20];
 
 
-struct User {
+struct User
+{
 	char name[20],
 	pwd[20];
 
@@ -60,7 +63,8 @@ Author: @Ayush Agrawal, @Rajat Agarwal
 
 int n = 4, upos = 0, bcount; 											//number of flights, user logged in
 
-void preset_vals(){													//hardcoded value presets
+void preset_vals()
+{													//hardcoded value presets
 
 	//Users
 	strcpy(user[0].name, "ayush");
@@ -153,35 +157,39 @@ void password(char pass[])
 
 	cout << "\nPassword: \n";
 
-	for(i = 0; i < 20 ; i++) {
+	for(i = 0; i < 20 ; i++)
+	{
 		pass[i]=getch();
 
-		if(pass[i] !=8 && pass[i] != '\r') {								//8 = ASCII for backspace
+		if(pass[i] !=8 && pass[i] != '\r')
+		{								//8 = ASCII for backspace
 			cout << "*";
 		}
 
-			if(pass[i] == '\r')							//If user presses enter
-			break;
+		if(pass[i] == '\r')							//If user presses enter
+		break;
 
-		else if(pass[i] == 8 && i > 0) {
+		else if(pass[i] == 8 && i > 0)
+		{
 			i-=2;
 			putch('\b');
-      putch(' ');
-      putch('\b');
+			putch(' ');
+			putch('\b');
 		}
 	}
 	pass[i]='\0';
 }
 
 
-void login(){
+void login()
+{
 	char userName[20], pass[20];
 	int loginAttempt = 0, flag = 0;
 
 	while (loginAttempt < 5   &&   !flag)
 	{
 		if (loginAttempt > 0)
-			cout << "Incorrect username or password \n\n";
+		cout << "Incorrect username or password \n\n";
 
 		cout << "\nUser name: ";
 		cin >> userName;
@@ -212,14 +220,16 @@ void login(){
 }
 
 
-void drawline(){
+void drawline()
+{
 	cout << "\n________________________________________________________________________________\n";
 }
 
-void header(){
+void header()
+{
 
 
-  system("cls");
+	system("cls");
 
 	cout << setw(75) << "Logged in as: " << user[upos].name;
 
@@ -229,13 +239,15 @@ void header(){
 }
 
 
-void table_header(){
+void table_header()
+{
 	cout << "\n\n" << setw(3) << "Sl" << setw(8) << "Flight" << setw(20) << "Airline" << setw(18) << "Departure" << setw(10) << "Arrival" << setw(8) << "Price";
 }
 
 
 
-void table_line(int i, int sl){
+void table_line(int i, int sl)
+{
 
 	cout << '\n' << setw(3) << sl << setw(8) << flight[i].num << setw(20) << flight[i].al;
 	cout << setw(4) << flight[i].etd.day << '/' << setw(2) << flight[i].etd.month << '/' << setw(4) << flight[i].etd.year << setw(6) << flight[i].etdh;
@@ -244,7 +256,8 @@ void table_line(int i, int sl){
 
 
 
-void display_flights() {
+void display_flights()
+{
 
 	header();
 
@@ -258,7 +271,8 @@ void display_flights() {
 
 
 
-void add_flight() {
+void add_flight()
+{
 
 	header();
 
@@ -342,7 +356,8 @@ void status()
 	{
 		for(int j = 0; j <= bcount; j++)
 		{
-			if((user[upos].booked[j] == i  && i!=0)|| (user[upos].booked[j]==11 && i==0)) {
+			if((user[upos].booked[j] == i  && i!=0)|| (user[upos].booked[j]==11 && i==0))
+			{
 
 				table_line(i, sl);
 				sl++;
@@ -351,44 +366,48 @@ void status()
 		}
 	}
 
-	do {
+	do
+	{
 		cout << "\n\nPress R to return to main menu";
 		cout << "\nPress C to cancel a booking";
 
 		ch = getch();
 
-		if(ch=='C' || ch=='c') {
+		if(ch=='C' || ch=='c')
+		{
 			cout << "\nenter serial number of flight to cancel: ";
 			cin >> cpos;
 			if(cpos-1>=0){
-			fpos = user[upos].booked[cpos-1];					//index of flight as stored in the Flights array
-			if(fpos==11)
+				fpos = user[upos].booked[cpos-1];					//index of flight as stored in the Flights array
+				if(fpos==11)
 				fpos=0;
 
-			if(strcmp(flight[fpos].src, "") !=0){
-			cout << "\nCancel flight from "<<flight[fpos].src<<" to "<<flight[fpos].dst<<"?\nPress C to confirm :";
-			cin >> conf;
-
-			if(conf=='C' || conf=='c')
-			{
-				if(bcount==1)
+				if(strcmp(flight[fpos].src, "") !=0)
 				{
-					user[upos].bcount--;
-					bcount--;
+					cout << "\nCancel flight from "<<flight[fpos].src<<" to "<<flight[fpos].dst<<"?\nPress C to confirm :";
+					cin >> conf;
+
+					if(conf=='C' || conf=='c')
+					{
+						if(bcount==1)
+						{
+							user[upos].bcount--;
+							bcount--;
+						}
+
+						user[upos].bcount--;
+						bcount--;
+
+
+						//deleting entry
+						for (int i = cpos-1; i < bcount; i++)
+						user[upos].booked[i] = user[upos].booked[i+1];
+
+					}
 				}
-
-				user[upos].bcount--;
-				bcount--;
-
-
-				//deleting entry
-				for (int i = cpos-1; i < bcount; i++)
-				user[upos].booked[i] = user[upos].booked[i+1];
-
 			}
-		}
-	}
-		} else if (ch != 'r' && ch != 'R') {
+		} else if (ch != 'r' && ch != 'R')
+		{
 			cout << "\n\n\nPlease enter valid input";
 		}
 	} while (ch != 'c' && ch != 'C' && ch != 'r' && ch != 'R');
@@ -415,9 +434,9 @@ void pay(int pos)
 	bcount = user[upos].bcount;
 
 	if(pos!=0)
-		user[upos].booked[bcount] = pos;
+	user[upos].booked[bcount] = pos;
 	else
-		user[upos].booked[bcount] = 11;
+	user[upos].booked[bcount] = 11;
 	user[upos].bcount++;
 	bcount++;
 }
@@ -477,13 +496,17 @@ void search()
 		}
 	}
 
-	if(sl != 0) {
+	if(sl != 0)
+	{
 		cout << "\n\n\nEnter serial no of flight to book :";
 		cin >> bpos;
 		confirmation(result[bpos-1]);					//result[bpos-1] gives corresponding index of flight as stored in Flights array
-	} else{
-	cout << "\n\n\nSorry!No flights match your request";
-	getch();}
+	}
+	else
+	{
+		cout << "\n\n\nSorry!No flights match your request";
+		getch();
+	}
 
 }
 
@@ -505,7 +528,8 @@ void userf()
 
 		cin >> ch;
 
-		switch(ch){
+		switch(ch)
+		{
 			case 1:
 			search();
 			break;
@@ -528,7 +552,8 @@ void admin()
 
 	int flag = 1, ch = 1;
 
-	do {
+	do
+	{
 
 		if (ch > 3 || ch < 1)
 		cout << "\nEnter valid option";
@@ -590,9 +615,9 @@ int main()
 			}
 		}
 
-	//	if (!flag){
+		//	if (!flag){
 		//	break;
-	//	}
+		//	}
 	}
 	if (loginAttempt == 5)
 	{
