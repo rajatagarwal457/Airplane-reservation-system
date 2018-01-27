@@ -573,8 +573,6 @@ int main()
 
 				loginAttempt=0;
 
-				//flag = 1;
-				//break;
 			}
 		}
 
