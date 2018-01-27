@@ -193,7 +193,7 @@ void header()
 
 	system("cls");
 
-	cout << setw(75) << "Logged in as: " << user[upos].name;
+	cout << setw(70) << "Logged in as: " << user[upos].name;
 
 	drawline();
 	cout << "\t\t\tAIRLINE RESERVATION SYSTEM";
@@ -259,7 +259,7 @@ void add_flight()
 	fno[i] = flight[n].al[i];
 
 	for (; i < 5; i++)
-	fno[i] = rand() % 10 + 49;
+	fno[i] = rand() % 10 + 48;
 
 	fno[6]='\0';
 
@@ -511,16 +511,16 @@ void userf()
 
 void admin()
 {
-	header();
 
-	int flag = 1, ch = 1;
+
+	int flag = 1,ch;
 
 	do
 	{
-
+		ch=1;
 		if (ch > 3 || ch < 1)
 		cout << "\nEnter valid option";
-
+		header();
 		cout << "\n1. Add flight\n2. Delete flight\n3. Logout";
 		cout << "\n\nOption :";
 
