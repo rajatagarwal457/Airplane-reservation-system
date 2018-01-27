@@ -575,10 +575,6 @@ int main()
 
 			}
 		}
-
-		//	if (!flag){
-		//	break;
-		//	}
 	}
 	if (loginAttempt == 5)
 	{
