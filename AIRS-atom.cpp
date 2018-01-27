@@ -339,10 +339,11 @@ void status()
 		{
 			cout << "\nenter serial number of flight to cancel: ";
 			cin >> cpos;
-			if(cpos-1>=0){
+			if(cpos-1>=0)
+			{
 				fpos = user[upos].booked[cpos-1];					//index of flight as stored in the Flights array
 				if(fpos==11)
-				fpos=0;
+					fpos=0;
 
 				if(strcmp(flight[fpos].src, "") !=0)
 				{
@@ -359,11 +360,12 @@ void status()
 
 						user[upos].bcount--;
 						bcount--;
+						user[upos].booked[cpos-1]=12;
 
 
 						//deleting entry
 						for (int i = cpos-1; i < bcount; i++)
-						user[upos].booked[i] = user[upos].booked[i+1];
+							user[upos].booked[i] = user[upos].booked[i+1];
 
 					}
 				}
@@ -392,14 +394,14 @@ void pay(int pos)
 	cin >> CVV;
 
 	cout << "\nproccessing payment...";
-	for (double aa = 0; aa < 50000000; aa++) {}			//delay timer
+	for (double aa = 0; aa < 100000000; aa++) {}			//delay timer
 
 	bcount = user[upos].bcount;
 
 	if(pos!=0)
-	user[upos].booked[bcount] = pos;
+		user[upos].booked[bcount] = pos;
 	else
-	user[upos].booked[bcount] = 11;
+		user[upos].booked[bcount] = 11;
 	user[upos].bcount++;
 	bcount++;
 }
