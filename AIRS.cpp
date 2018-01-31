@@ -117,7 +117,7 @@ void preset_vals()
 
 	//Flights
 	flight[0].price=20000;
-	flight[0].seats=150;
+	flight[0].seats=23;
 	flight[0].etdh=1200;
 	flight[0].etah=1400;
 	flight[0].etd.day=6;
@@ -125,7 +125,7 @@ void preset_vals()
 	flight[0].etd.year=2018;
 
 	flight[1].price=25000;
-	flight[1].seats=150;
+	flight[1].seats=62;
 	flight[1].etdh=1100;
 	flight[1].etah=1500;
 	flight[1].etd.day=6;
@@ -133,7 +133,7 @@ void preset_vals()
 	flight[1].etd.year=2018;
 
 	flight[2].price=27000;
-	flight[2].seats=150;
+	flight[2].seats=15;
 	flight[2].etdh=1000;
 	flight[2].etah=1400;
 	flight[2].etd.day=8;
@@ -141,7 +141,7 @@ void preset_vals()
 	flight[2].etd.year=2018;
 
 	flight[3].price=30000;
-	flight[3].seats=180;
+	flight[3].seats=80;
 	flight[3].etdh=2000;
 	flight[3].etah=2350;
 	flight[3].etd.day=6;
@@ -149,7 +149,7 @@ void preset_vals()
 	flight[3].etd.year=2018;
 
 	flight[4].price=20000;
-	flight[4].seats=150;
+	flight[4].seats=10;
 	flight[4].etdh=1200;
 	flight[4].etah=1400;
 	flight[4].etd.day=6;
@@ -238,7 +238,7 @@ void header()
 //outputs table column headings
 void table_header()
 {
-	cout << "\n\n" << setw(5) << "Sl" << setw(15) << "Flight" << setw(25) << "Airline" << setw(25) << "Departure" << setw(20) << "Arrival" << setw(15) << "Price" << "\n";
+	cout << "\n\n" << setw(5) << "Sl" << setw(15) << "Flight" << setw(25) << "Airline" << setw(25) << "Departure" << setw(20) << "Arrival" << setw(10) << "Price" << setw(15) << "Seats Left\n";
 }
 
 
@@ -248,7 +248,7 @@ void table_line(int i, int sl)
 
 	cout << '\n' << setw(5) << sl << setw(15) << flight[i].num << setw(25) << flight[i].al;
 	cout << setw(7) << flight[i].src << setw(4) << flight[i].etd.day << '/' << setw(2) << flight[i].etd.month << '/' << setw(4) << flight[i].etd.year << setw(6) << flight[i].etdh;
-	cout << setw(13) << flight[i].dst << setw(7) << flight[i].etah << setw(15) << flight[i].price;
+	cout << setw(13) << flight[i].dst << setw(7) << flight[i].etah << setw(10) << flight[i].price << setw(15) << flight[i].seats;
 }
 
 
@@ -423,7 +423,6 @@ void pay(int pos)
 	int CVV, card_no;
 
 	cout << "\nenter card no. : ";
-
 	cin >> card_no;
 
 	cout << "\n\nenter CVV : ";
@@ -441,24 +440,40 @@ void pay(int pos)
 
 	user[upos].bcount++;
 	bcount++;
+
 }
 
 
 //flight confirmation page
 void confirmation(int pos)
 {
-	header();
 
-	int seats;
+	int seats, flag = 1;
 
-	cout << "\nenter no. of seats : ";
-	cin >> seats;
+	do{
+		flag = 1;
+
+		header();
+
+		cout << "\nenter no. of seats : ";
+		cin >> seats;
+
+		flight[pos].seats -= seats;
+
+		if (flight[pos].seats < 0){
+			flag = 0;
+			flight[pos].seats += seats;
+			cout << "\nSorry, only " << flight[pos].seats << " seats are available";
+			getch();
+		}
+	} while (!flag);
 
 	cout << "\nPrice payable : " << flight[pos].price * seats;
 
 	cout << "\n\n" << "press any key to continue to payment page";
 	getch();
 	pay(pos);
+
 }
 
 
@@ -487,7 +502,7 @@ void search()
 
 	for(int i=0; i<n; i++)
 	{
-		if ( strcmpi(src,flight[i].src) == 0   &&   strcmpi(des,flight[i].dst) == 0   &&   flight[i].etd.day == day   &&   flight[i].etd.month == month &&   flight[i].etd.year == year) 	//flight results - origin, destination and date
+		if ( strcmpi(src,flight[i].src) == 0   &&   strcmpi(des,flight[i].dst) == 0   &&   flight[i].etd.day == day   &&   flight[i].etd.month == month &&   flight[i].etd.year == year && flight[i].seats > 0) 	//flight results - origin, destination and date
 		{
 			result[j] = i;
 			j++;
