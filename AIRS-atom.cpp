@@ -77,6 +77,7 @@ void status();
 void pay(int pos);
 void confirmation(int pos);
 void search();
+void front_page();
 
 
 //Definitions
@@ -180,6 +181,26 @@ void preset_vals()
 	strcpy(flight[4].src,"blr");
 	strcpy(flight[4].dst,"dxb");
 	strcpy(flight[4].num,"lu287");
+}
+
+//display welcome screen
+void front_page()
+{
+	cout<<"\n_______________________________________________________________________________________________________________________";
+	cout<<"\n|                                                                                                                     |";
+	cout<<"\n|                                                                                                                     |";
+	cout<<"\n|                                     ___       __  .______           _______.                                        |";
+	cout<<"\n|                                    /   \\     |  | |   _  \\         /       |                                        |";
+	cout<<"\n|                                   /  ^  \\    |  | |  |_)  |       |   (----`                                        |";
+	cout<<"\n|                                  /  /_\\  \\   |  | |      /         \\   \\                                            |";
+	cout<<"\n|                                 /  _____  \\  |  | |  |\\  \\----..----)   |                                           |";
+	cout<<"\n|                                /__/     \\__\\ |__| | _| `._____||_______/                                            |";
+	cout<<"\n|                                                                                                                     |";
+	cout<<"\n|                                                                                                                     |";
+	cout<<"\n|                                         Press Any key to start!                                                     |";
+	cout<<"\n|                                                                                                                     |";
+	cout<<"\n|_____________________________________________________________________________________________________________________|";
+	getch();
 }
 
 
@@ -606,7 +627,7 @@ void admin()
 int main()
 {
 	preset_vals();
-
+	front_page();
 	char userName[20];
 	char pass[20];
 	int loginAttempt = 0, i, flag = 1;
