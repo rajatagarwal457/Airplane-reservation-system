@@ -609,10 +609,10 @@ int main()
 
 	char userName[20];
 	char pass[20];
-	int loginAttempt = 0, i, flag = 0;
+	int loginAttempt = 0, i, flag = 1;
 
 
-	while (loginAttempt < 5 && flag == 0)
+	while (loginAttempt < 5 && flag == 1)
 	{
 		system("cls");
 
@@ -645,7 +645,7 @@ int main()
 			}
 		}
 
-		if(flag == 0)
+		if(i==10)
 		{
 			cout << "\n\nInvalid username or password";
 			getch();
