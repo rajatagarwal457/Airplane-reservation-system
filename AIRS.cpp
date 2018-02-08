@@ -14,7 +14,7 @@ Author: @Ayush Agrawal, @Rajat Agarwal, @Pavan Bykampadi
 using namespace std;
 
 /*
-	STRUCTURES
+STRUCTURES
 */
 
 
@@ -27,8 +27,8 @@ struct Date
 
 
 struct Booking{
-   int pos,
-   seats;
+	int pos,
+	seats;
 };
 
 struct Flight
@@ -39,11 +39,11 @@ struct Flight
 	dst[4];
 
 	int seats,
-   i,             //index of booking
+	i,             //index of booking
 	etdh,				//etd hour
 	etah;          //eta hour
 
-   Booking booked[20];    //users who have booked
+	Booking booked[20];    //users who have booked
 
 	double price;
 
@@ -59,7 +59,7 @@ struct User
 	int bcount,
 	type;  					//0 - user, 1 - airline
 
-   Booking booked[20];    //users who have booked
+	Booking booked[20];    //users who have booked
 } user[10];
 
 
@@ -124,12 +124,12 @@ void preset_vals()
 		}
 	}
 
-   //presets all values storing index of bookings to -1
-   for (int i = 0; i < 20; i++){
-      for (int j = 0; j < 20; j++){
-            flight[i].booked[j].pos = -1;
-      }
-   }
+	//presets all values storing index of bookings to -1
+	for (int i = 0; i < 20; i++){
+		for (int j = 0; j < 20; j++){
+			flight[i].booked[j].pos = -1;
+		}
+	}
 
 	user[0].type = 0;
 	user[1].type = 0;
@@ -243,7 +243,7 @@ void password(char pass[])
 		}
 
 		if(pass[i] == '\r')							  	//Exits loop if user presses enter
-			break;
+		break;
 
 		else if(pass[i] == 8 && i > 0)				//Removes two * and decrements index on entering backspace
 		{
@@ -281,7 +281,7 @@ void header()
 void table_header()
 {
 	cout << "\n\n" << setw(5) << "Sl" << setw(15) << "Flight" << setw(25) << "Airline" << setw(25) << "Departure" << setw(20) << "Arrival" << setw(15) << "Price" << setw(10) << "Seats";
-   cout << endl;
+	cout << endl;
 }
 
 
@@ -304,7 +304,7 @@ void display_all_flights()
 	table_header();
 
 	for(int i=0; i<n; i++)
-		table_line(i, i+1, flight[i].seats);
+	table_line(i, i+1, flight[i].seats);
 
 	cout << "\n\n";
 }
@@ -312,24 +312,24 @@ void display_all_flights()
 
 //display flight bookings
 void bookings(){
-   int  sl = 1, fpos, ind, uind;
+	int  sl = 1, fpos, ind, uind;
 
 	header();
 
-   table_header();
+	table_header();
 
-   for (int i = 0; i < n; i++){
-      table_line(i, i+1, flight[i].seats);
-   }
+	for (int i = 0; i < n; i++){
+		table_line(i, i+1, flight[i].seats);
+	}
 
-   do{
-      cout << "\n\nEnter flight to view details: \n";
-      cin >> fpos;
-   } while (fpos < 1 || fpos > n+1);
+	do{
+		cout << "\n\nEnter flight to view details: \n";
+		cin >> fpos;
+	} while (fpos < 1 || fpos > n+1);
 
-   fpos--;
+	fpos--;
 
-   ind = flight[fpos].i;
+	ind = flight[fpos].i;
 
 	cout << setw(5) << "Sl" << setw(20) << "Booking Name" << setw(10) << "Seats";
 
@@ -339,13 +339,13 @@ void bookings(){
 		{
 			if(flight[fpos].booked[j].pos == i)
 			{
-			   cout << endl << setw(5) << sl << setw(20) << user[i].name << setw(10) << flight[fpos].booked[j].seats;
+				cout << endl << setw(5) << sl << setw(20) << user[i].name << setw(10) << flight[fpos].booked[j].seats;
 				sl++;
 			}
 		}
 	}
 
-   getch();
+	getch();
 }
 
 
@@ -413,7 +413,7 @@ void del_flight()
 	cin >> pos;
 
 	for (int i = pos - 1; i <= n; i++)				//deletes flight entry from array
-		flight[i] = flight[i+1];
+	flight[i] = flight[i+1];
 
 	n--;
 }
@@ -460,13 +460,13 @@ void status()
 			{
 				fpos = user[upos].booked[cpos-1].pos;					//index of flight as stored in the Flights array
 
-            //index of entry in flight bookings
-            for (int i = 0; i < 20; i++){
-               if (flight[fpos].booked[i].pos == upos){
-                  ind = i;
-                  break;
-               }
-            }
+				//index of entry in flight bookings
+				for (int i = 0; i < 20; i++){
+					if (flight[fpos].booked[i].pos == upos){
+						ind = i;
+						break;
+					}
+				}
 
 				if(strcmp(flight[fpos].src, "") !=0)				//if flight entry exists
 				{
@@ -479,16 +479,16 @@ void status()
 						user[upos].bcount--;
 						bcount--;
 
-                  flight[fpos].i--;
+						flight[fpos].i--;
 
 						//deleting entry
 						for (int i = cpos-1; i < bcount; i++){
 							user[upos].booked[i] = user[upos].booked[i+1];
-                  }
+						}
 
-                  for (int i = ind; i < flight[fpos].i; i++){
-                     flight[fpos].booked[i] = flight[fpos].booked[i+1];
-                  }
+						for (int i = ind; i < flight[fpos].i; i++){
+							flight[fpos].booked[i] = flight[fpos].booked[i+1];
+						}
 
 					}
 				}
@@ -519,17 +519,17 @@ void pay(int pos, int seats)
 	for (double aa = 0; aa < 100000000; aa++) {}			//delay timer
 
 	bcount = user[upos].bcount;
-   int ind = flight[pos].i;
+	int ind = flight[pos].i;
 
-   flight[pos].booked[ind].pos = upos;
-   flight[pos].booked[ind].seats = seats;
-   flight[pos].i++;
+	flight[pos].booked[ind].pos = upos;
+	flight[pos].booked[ind].seats = seats;
+	flight[pos].i++;
 
 	user[upos].booked[bcount].pos = pos;
-   user[upos].booked[bcount].seats = seats;
+	user[upos].booked[bcount].seats = seats;
 	user[upos].bcount++;
 
-   bcount++;
+	bcount++;
 
 }
 
@@ -585,7 +585,7 @@ void search()
 	cin >> day >> month >> year;
 
 	int sl = 0, result[10], j = 0, bpos;			//result stores the search results with user friendly indices (j)
-																//bpos is sl no of flight to be booked
+	//bpos is sl no of flight to be booked
 
 	//display search results in tabular format
 	table_header();
@@ -638,15 +638,15 @@ void userf()
 		switch(ch)
 		{
 			case 1:
-				search();
-				break;
+			search();
+			break;
 			case 2:
-				status();
-				break;
+			status();
+			break;
 			case 3:
-				cout << "\nThank you for using our services!!";
-				flag=0;
-				break;
+			cout << "\nThank you for using our services!!";
+			flag=0;
+			break;
 		}
 		ch = 0;
 	} while(flag && (ch > 3 || ch < 1));			//checks for correct input and exit
@@ -662,9 +662,9 @@ void admin()
 	do
 	{
 		if (ch > 5 || ch < 1)					//error handling
-			cout << "\nEnter valid option";
+		cout << "\nEnter valid option";
 
-      ch = 1;
+		ch = 1;
 
 		header();
 		cout << "\n1. Add flight\n2. Delete flight\n3. Display Flights\n4. View Bookings\n5. Logout";
@@ -674,21 +674,21 @@ void admin()
 		switch(ch)
 		{
 			case 1:
-				add_flight();
-				break;
+			add_flight();
+			break;
 			case 2:
-				del_flight();
-				break;
+			del_flight();
+			break;
 			case 3:
-				display_all_flights();
-				getch();
-				break;
-         case 4:
-            bookings();
-            break;
+			display_all_flights();
+			getch();
+			break;
+			case 4:
+			bookings();
+			break;
 			case 5:
-				flag = 0;
-				break;
+			flag = 0;
+			break;
 		}
 		ch = 0;
 	} while (flag && (ch > 5 || ch < 1));
@@ -728,9 +728,9 @@ int main()
 				upos = i;
 
 				if (user[i].type == 0)
-					userf();
+				userf();
 				else
-					admin();
+				admin();
 
 				loginAttempt=0;
 				flag = 1;				//login successful
